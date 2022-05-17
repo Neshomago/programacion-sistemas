@@ -325,7 +325,4 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreApellido;
     // End of variables declaration//GEN-END:variables
 
-    List<Cliente> ListaClientes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

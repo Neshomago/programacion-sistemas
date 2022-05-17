@@ -124,17 +124,26 @@ public class Conexionbd {
         }
     }
     
-    public void consultaClientes(){
+    public Object consultaClientes(){
+        Object[] object = new Object[7];
         try {
             conectar();
             query = cx.prepareStatement("SELECT * FROM clientes");
             resultado = query.executeQuery();
             while(resultado.next()){
-                System.out.println("Consulta Clientes total: \n"+resultado);
+                object[0] = resultado.getString("id_cliente");
+                object[1] = resultado.getString("cedula");
+                object[2] = resultado.getString("nombre");
+                object[3] = resultado.getString("correo");
+                object[4] = resultado.getString("telefono");
+                object[5] = resultado.getString("direccion");
+                object[6] = resultado.getString("cantidad_compras");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.print("Objeto: "+object);
+        return object;
     }
     
     public void consultarCliente(int idCliente){
@@ -197,7 +206,19 @@ public class Conexionbd {
     }
     
     /*Seccion de Ventas */
-    public void crearVenta (){
+    public void crearVenta (String idvendedor, String nofactura, String idcliente, String detalle,String totalventa){
+        try {
+            conectar();
+            query = cx.prepareStatement("INSERT INTO ventas (id_venta, id_vendedor, no_factura, id_cliente, detalle, total_venta, fecha_venta, pagada) VALUES (NULL, '"+idvendedor+"', '"+nofactura+"', '"+idcliente+"', '"+detalle+"', '"+totalventa+"', current_timestamp(), '1');");
+            System.out.println(query);
+            query.executeUpdate();
+            System.out.println("Venta registrada con éxito.");
+            JOptionPane.showMessageDialog(null, "Venya registrada con éxito.");
+        } catch (SQLException ex) {
+            System.out.println("Venta con problemas en registro.");
+            JOptionPane.showMessageDialog(null, "Venta con problemas en registro.");
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void consultarVentas(){

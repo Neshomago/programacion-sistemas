@@ -6,7 +6,15 @@
 package Ventanas;
 
 import Models.Cliente;
+import Models.ClientesLista;
+import conexion.Conexionbd;
 import java.util.List;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,9 +23,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Listadoclientes extends javax.swing.JFrame {
 
+    Conexionbd con = new Conexionbd();
+    Connection cx;
+    PreparedStatement query;
+    ResultSet resultado;
+    
     Cliente cl = new Cliente();
-    Clientes clienteLista = new Clientes();
-    DefaultTableModel modelo;
+    ClientesLista clienteLista = new ClientesLista();
+    //DefaultTableModel modelo;
     /**
      * Creates new form Listadoclientes
      */
@@ -34,20 +47,17 @@ public class Listadoclientes extends javax.swing.JFrame {
     }*/
     
     public void ListaClientes(){
-        List<Cliente> lista = clienteLista.ListaClientes();
-        modelo = (DefaultTableModel) tableCliente.getModel();
+        con.consultaClientes();
+        String[] columnas = {"Id", "Cedula", "Nombre", "Correo", "Telefono","Direccion","No. Compras"};
+        String[] lista = new String[7];
         Object[] obj = new Object[7];
-        for (int i=0; i < lista.size(); i++){
-            obj[0] = lista.get(i).getId();
-            obj[1] = lista.get(i).getCedula();
-            obj[2] = lista.get(i).getNombre();
-            obj[3] = lista.get(i).getCorreo();
-            obj[4] = lista.get(i).getTelefono();
-            obj[5] = lista.get(i).getDireccion();
-            obj[6] = lista.get(i).getCant_compras();
-            modelo.addRow(obj);
+        //List<Cliente> lista = clienteLista.ClienteLista();
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+        /*for (int i=0; i < lista.length; i++){
+            
+        modelo.addRow(obj);
         }
-        tableCliente.setModel(modelo);
+        tableCliente.setModel(modelo);*/
     }
 
     /**
@@ -65,6 +75,7 @@ public class Listadoclientes extends javax.swing.JFrame {
         tableCliente = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +104,11 @@ public class Listadoclientes extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableCliente.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tableClienteComponentShown(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCliente);
         if (tableCliente.getColumnModel().getColumnCount() > 0) {
             tableCliente.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -114,6 +130,13 @@ public class Listadoclientes extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Cargar Clientes");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,8 +146,9 @@ public class Listadoclientes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -137,14 +161,16 @@ public class Listadoclientes extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton3))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,6 +199,15 @@ public class Listadoclientes extends javax.swing.JFrame {
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tableClienteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tableClienteComponentShown
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tableClienteComponentShown
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ListaClientes();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +247,7 @@ public class Listadoclientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

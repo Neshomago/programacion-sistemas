@@ -4,7 +4,11 @@
  */
 package Ventanas;
 
+import Models.Cliente;
+import Models.ClientesLista;
 import conexion.Conexionbd;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,6 +16,9 @@ import conexion.Conexionbd;
  */
 public class Menu extends javax.swing.JFrame {
     Conexionbd con = new Conexionbd();
+    Cliente cl = new Cliente();
+    ClientesLista client = new ClientesLista();
+    DefaultTableModel modelo;
     /**
      * Creates new form Menu
      */
@@ -257,7 +264,6 @@ public class Menu extends javax.swing.JFrame {
         Listadoclientes listadocli = new Listadoclientes();
         listadocli.setVisible(true);
         //listadocli.limpiarTablaclientes();
-        listadocli.ListaClientes();
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
