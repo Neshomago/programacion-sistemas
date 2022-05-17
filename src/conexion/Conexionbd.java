@@ -33,9 +33,9 @@ public class Conexionbd {
         try {
             Class.forName(driver);
             cx = DriverManager.getConnection(url+bd,user,password);
-            System.out.println("Conectado a la base");
+            System.out.println("Conectado a la base.");
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Problemas al conectarse");
+            System.out.println("Problemas al conectarse.");
             Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -44,7 +44,7 @@ public class Conexionbd {
     public void desconectar(){
         try {
             cx.close();
-            System.out.println("Desconectado de la  base");
+            System.out.println("Desconectado de la  base.");
         } catch (SQLException ex) {
             Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,15 +55,12 @@ public class Conexionbd {
             conectar();
             query = cx.prepareStatement("SELECT * FROM `usuarios` WHERE user = '"+userLogin+"' AND password = '"+passwordLogin+"';");
             resultado = query.executeQuery();
-            System.out.println("user hacia la base: "+userLogin+", y pass: "+passwordLogin);
-            /*System.out.print("Nombre:"+resultado.getString("nombre"));*/
             while(resultado.next()){
                 String nombreUsuario = resultado.getString("nombre");
                 String userSistema = resultado.getString("user");
                 String passSistema = resultado.getString("password");
                 if(userLogin.equals(userSistema) &&  passwordLogin.equals(passSistema)){
-                System.out.println(nombreUsuario + "user de sistema: " + userSistema + " y pass: "+passSistema);
-                JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUsuario);
+                JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUsuario+". \n En su rol de "+ resultado.getString("rol"));
                 loggeo = 1;
                 System.out.println("log correcto: " + loggeo);
                 } else {
@@ -77,17 +74,135 @@ public class Conexionbd {
         } catch (SQLException ex) {
             Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
             loggeo = 0;
-            System.out.println("log incorrecto" + loggeo);
+            System.out.println("log incorrecto: " + loggeo);
             desconectar();
         }
 
         return loggeo;
     }
     
-    public void crearUser(String name, String email, String user, String password, String phone, String role){
-        /*
-        INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `user`, `password`, `telefono`, `rol`, `fecha_creacion`)
-        VALUES (NULL, 'Andres Torres', 'magoyde@gmail.com', 'admin', 'admin', '0963509104', 'admin', current_timestamp());
-        */
+    /*Seccion de Usuarios */
+    public void crearUser(String name, String email, String user,
+            String password, String phone, String role){
+        conectar();
+        try {
+            query = cx.prepareStatement("INSERT INTO usuarios (id_usuario, nombre, correo, user, password, telefono, rol, fecha_creacion) VALUES (NULL, 'Andres Torres', 'magoyde@gmail.com', 'admin', 'admin', '0963509104', 'admin', current_timestamp())");
+            /*
+            INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `user`, `password`, `telefono`, `rol`, `fecha_creacion`)
+            VALUES (NULL, 'Andres Torres', 'magoyde@gmail.com', 'admin', 'admin', '0963509104', 'admin', current_timestamp());
+            */
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void consultarUsuarios(){
+    /*
+        INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `user`, `password`,
+        `telefono`, `rol`, `fecha_creacion`) VALUES (NULL, 'Joaquin Torres',
+        'joaco@correo.com', 'vendedor', 'vendedor', '', 'vendedor', current_timestamp()),
+        (NULL, 'Federico Torres', 'fede@correo.com', 'fede', 'fede', '', 'bodeguero', current_timestamp());*/
+    }
+    
+    /*Seccion de Clientes*/
+    public void crearCliente (String ced, String nombre, String mail, String phone, String dir){
+        try {
+            conectar();
+            query = cx.prepareStatement("INSERT INTO clientes (cedula, nombre, correo, telefono, direccion, cantidad_compras, fecha_ingreso) VALUES ('"+ced+"', '"+nombre+"', '"+mail+"', '"+phone+"', '"+dir+"', NULL, current_timestamp())");
+            System.out.println(query);
+            query.executeUpdate();
+            System.out.println("Cliente registrado con éxito.");
+            JOptionPane.showMessageDialog(null, "Cliente registrado con éxito.");
+            /*
+            INSERT INTO `clientes` (`id_cliente`, `cedula`, `nombre`, `correo`, `telefono`, `direccion`,
+            `cantidad_compras`, `fecha_ingreso`) VALUES (NULL, '0922441199', 'Margareth Carvajal',
+            'marga@correo.com', NULL, NULL, NULL, current_timestamp())*/
+        } catch (SQLException ex) {
+            System.out.println("Cliente con problemas en registro.");
+            JOptionPane.showMessageDialog(null, "Cliente con problemas en registro.");
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void consultaClientes(){
+        try {
+            conectar();
+            query = cx.prepareStatement("SELECT * FROM clientes");
+            resultado = query.executeQuery();
+            while(resultado.next()){
+                System.out.println("Consulta Clientes total: \n"+resultado);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void consultarCliente(int idCliente){
+        try {
+            conectar();
+            query = cx.prepareStatement("SELECT * FROM clientes WHERE id="+idCliente);
+            resultado = query.executeQuery();
+            System.out.println("Consulta: \n"+resultado);
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void actualizarCliente(){
+        try {
+            conectar();
+            //query = cx.prepareStatement("INSERT INTO clientes (cedula, nombre, correo, telefono, direccion, cantidad_compras, fecha_ingreso) VALUES ('"+ced+"', '"+nombre+"', '"+mail+"', '"+phone+"', '"+dir+"', NULL, current_timestamp())");
+            System.out.println(query);
+            query.executeUpdate();
+            System.out.println("Cliente registrado con éxito.");
+            JOptionPane.showMessageDialog(null, "Cliente registrado con éxito.");
+            /*
+            INSERT INTO `clientes` (`id_cliente`, `cedula`, `nombre`, `correo`, `telefono`, `direccion`,
+            `cantidad_compras`, `fecha_ingreso`) VALUES (NULL, '0922441199', 'Margareth Carvajal',
+            'marga@correo.com', NULL, NULL, NULL, current_timestamp())*/
+        } catch (SQLException ex) {
+            System.out.println("Cliente con problemas en registro.");
+            JOptionPane.showMessageDialog(null, "Cliente con problemas en registro.");
+            Logger.getLogger(Conexionbd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void eliminarCliente(){
+    }
+    
+    /*Seccion de Productos */
+    public void crearProducto (){
+    }
+    
+    public void consultarProducto(){
+    }
+    
+    public void actualizarProducto(){
+    }
+    
+    public void eliminarProducto(){
+    }
+    
+    /*Seccion de Proveedores */
+    public void crearProveedor (){
+    }
+    
+    public void consultarProveedor(){
+    }
+    
+    public void actualizarProveedor(){
+    }
+    
+    public void eliminarProveedor(){
+    }
+    
+    /*Seccion de Ventas */
+    public void crearVenta (){
+    }
+    
+    public void consultarVentas(){
+    }
+    
+    public void eliminarVenta(){
     }
 }
