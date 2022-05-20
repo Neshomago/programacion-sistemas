@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
+    String user;
 
     public Login()
     {
@@ -202,12 +203,12 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- String user,pass;
+ String pass;
  int loggeo;
- user = txtUser.getText();
+ this.user = txtUser.getText();
  pass = txtPass.getText();
  Conexionbd con = new Conexionbd();
- loggeo = con.loginUser(user, pass);
+ loggeo = con.loginUser(this.user, pass);
  if(loggeo == 1){
      Menu menuu = new Menu();
      menuu.setVisible(true);

@@ -23,12 +23,20 @@ public class Conexionbd {
     private final String url="jdbc:mysql://localhost:3306/";
     protected String user="root";
     protected String password="";
+    public String rol="";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     static PreparedStatement query;
     static ResultSet resultado;
     int loggeo;
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
     public Connection conectar(){
         try {
             Class.forName(driver);
@@ -59,10 +67,11 @@ public class Conexionbd {
                 String nombreUsuario = resultado.getString("nombre");
                 String userSistema = resultado.getString("user");
                 String passSistema = resultado.getString("password");
+                this.rol = resultado.getString("rol");
                 if(userLogin.equals(userSistema) &&  passwordLogin.equals(passSistema)){
-                JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUsuario+". \n En su rol de "+ resultado.getString("rol"));
+                JOptionPane.showMessageDialog(null, "Bienvenido "+ nombreUsuario+". \n En su rol de "+ this.rol);
                 loggeo = 1;
-                System.out.println("log correcto: " + loggeo);
+                System.out.println("log correcto: " + loggeo+"\n"+this.rol);
                 } else {
                     loggeo = 0;
                     System.out.println("log incorrecto: " + loggeo);

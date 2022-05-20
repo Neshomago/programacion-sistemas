@@ -8,6 +8,8 @@ import Models.Cliente;
 import Models.ClientesLista;
 import conexion.Conexionbd;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,13 +20,16 @@ public class Menu extends javax.swing.JFrame {
     Conexionbd con = new Conexionbd();
     Cliente cl = new Cliente();
     ClientesLista client = new ClientesLista();
+    String rol = con.getRol();
     DefaultTableModel modelo;
+    JFrame ventana = new JFrame();
     /**
      * Creates new form Menu
      */
     public Menu() {
-        initComponents();
-       this.setLocationRelativeTo(null); 
+       initComponents();
+       this.setLocationRelativeTo(null);
+       System.out.println(rol);
     }
     
     /**
@@ -42,11 +47,11 @@ public class Menu extends javax.swing.JFrame {
         BtProductos = new javax.swing.JButton();
         BtProveedor = new javax.swing.JButton();
         Btexit = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btverclientes = new javax.swing.JButton();
+        btconsultaventas = new javax.swing.JButton();
+        btverbodega = new javax.swing.JButton();
+        btverproveedores = new javax.swing.JButton();
+        btdetallesempresa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,35 +125,35 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Ver todos clientes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btverclientes.setText("Ver todos clientes");
+        btverclientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btverclientesActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Consultar ventas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btconsultaventas.setText("Consultar ventas");
+        btconsultaventas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btconsultaventasActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Ver bodega");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btverbodega.setText("Ver bodega");
+        btverbodega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btverbodegaActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Ver proveedores");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btverproveedores.setText("Ver proveedores");
+        btverproveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btverproveedoresActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Datos de la empresa");
+        btdetallesempresa.setText("Datos de la empresa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,19 +171,19 @@ public class Menu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BtProveedor))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btverclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btconsultaventas, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btverbodega, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btverproveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btdetallesempresa, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(278, 278, 278)
@@ -196,14 +201,14 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(BtCLiente))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btverclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btconsultaventas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btverbodega, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btverproveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btexit)
-                    .addComponent(jButton5))
+                    .addComponent(btdetallesempresa))
                 .addGap(50, 50, 50))
         );
 
@@ -226,10 +231,26 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getBtProductos() {
+        return BtProductos;
+    }
+
+    public void setBtProductos(JButton BtProductos) {
+        this.BtProductos = BtProductos;
+    }
+
+    public JButton getBtverbodega() {
+        return btverbodega;
+    }
+
+    public void setBtverbodega(JButton btverbodega) {
+        this.btverbodega = btverbodega;
+    }
+
     private void BtProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtProveedorActionPerformed
- Proveedor proveedor= new Proveedor ();
- proveedor.setVisible(true);
- this.dispose();
+        Proveedor proveedor= new Proveedor ();
+        proveedor.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BtProveedorActionPerformed
 
     private void BtexitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtexitMouseClicked
@@ -249,35 +270,35 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_BtCLienteActionPerformed
 
     private void BtVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVentasActionPerformed
- Ventas venta= new Ventas ();
- venta.setVisible(true);
- this.dispose();
+        Ventas venta= new Ventas ();
+        venta.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BtVentasActionPerformed
 
     private void BtProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtProductosActionPerformed
-    Productos producto= new Productos ();
- producto.setVisible(true);
- this.dispose();
+        Productos producto= new Productos ();
+        producto.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BtProductosActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btverclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btverclientesActionPerformed
         Listadoclientes listadocli = new Listadoclientes();
         listadocli.setVisible(true);
         //listadocli.limpiarTablaclientes();
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btverclientesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btconsultaventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btconsultaventasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btconsultaventasActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btverbodegaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btverbodegaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btverbodegaActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btverproveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btverproveedoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btverproveedoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,11 +341,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton BtProveedor;
     private javax.swing.JButton BtVentas;
     private javax.swing.JButton Btexit;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btconsultaventas;
+    private javax.swing.JButton btdetallesempresa;
+    private javax.swing.JButton btverbodega;
+    private javax.swing.JButton btverclientes;
+    private javax.swing.JButton btverproveedores;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
